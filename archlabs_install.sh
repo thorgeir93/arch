@@ -30,7 +30,7 @@ install_x () {
 install_login_manager () {
     pacman_update
     pacman_install lightdm
-    pacman_install lightdm-gtk-greeter lightdm-gtk-gretter-settings
+    pacman_install lightdm-gtk-greeter lightdm-gtk-greeter-settings
 }
 
 install_qtile () {
