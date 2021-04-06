@@ -1,25 +1,69 @@
+#!/bin/bash
+# On a fresh archlabs instance run as root:
+# $ bash archlabs_install.sh
 USERNAME="test"
 
-# As root
-pacman -Syu
-pacman -S xorg-server xorg-apps xorg-xinit xterm
-pacman -S lightdm
-pacman -S lightdm-gtk-greeter lightdm-gtk-gretter-settings
-
+#
+# HELP FUNCTIONS
+#
 user_run () {
     su -c "$1" $USERNAME
 }
-# As user
-user_run "mkdir -p ~/.config/qtile" 
-user_run "cp /usr/share/doc/qtile/default_config.py ~/.config/qtile"
+pacman_update () {
+    pacman -Syu
+}
 
-# As root
-pacman -Syu
-pacman -S sudo
 
-# Manual stuff
-# vi /etc/sudoers
-# Remove comment from %wheel ALL=(ALL) ALL
+#
+# INSTALLATION COMMANDS
+#
 
- 
+install_x () {
+    pacman_update
+    pacman -S xorg-server xorg-apps xorg-xinit xterm
+}
 
+install_login_manager () {
+    pacman_update
+    pacman -S lightdm
+    pacman -S lightdm-gtk-greeter lightdm-gtk-gretter-settings
+}
+
+install_qtile () {
+    pacman_update
+    pacman -S qtile
+}
+
+install_utils () {
+    pacman_update
+    pacman -S sudo
+}
+
+#
+# CONFIGURATION
+#
+config_qtile () {
+    user_run "mkdir -p ~/.config/qtile" 
+    user_run "cp /usr/share/doc/qtile/default_config.py ~/.config/qtile"
+}
+
+#
+# RECIPE
+#
+begin () {
+    install_x
+    install_login_manager
+    install_qtile
+
+    config_qtile
+
+    install_utils
+
+    echo "Your turn:"
+    echo "$ vi /etc/sudoers"
+    echo "Remove comment from %wheel ALL=(ALL) ALL"
+
+    echo "FINISH!"
+}
+
+begin
