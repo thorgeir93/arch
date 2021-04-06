@@ -13,6 +13,10 @@ pacman_update () {
     pacman -Syu
 }
 
+pacman_install () {
+    pacman -S --noconfirm ${@}
+}
+
 
 #
 # INSTALLATION COMMANDS
@@ -20,23 +24,23 @@ pacman_update () {
 
 install_x () {
     pacman_update
-    pacman -S xorg-server xorg-apps xorg-xinit xterm
+    pacman_install xorg-server xorg-apps xorg-xinit xterm
 }
 
 install_login_manager () {
     pacman_update
-    pacman -S lightdm
-    pacman -S lightdm-gtk-greeter lightdm-gtk-gretter-settings
+    pacman_install lightdm
+    pacman_install lightdm-gtk-greeter lightdm-gtk-gretter-settings
 }
 
 install_qtile () {
     pacman_update
-    pacman -S qtile
+    pacman_install qtile
 }
 
 install_utils () {
     pacman_update
-    pacman -S sudo
+    pacman_install sudo
 }
 
 #
@@ -53,8 +57,8 @@ config_qtile () {
 begin () {
     install_x
     install_login_manager
-    install_qtile
 
+    install_qtile
     config_qtile
 
     install_utils
