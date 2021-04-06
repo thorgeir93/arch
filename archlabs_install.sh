@@ -31,6 +31,8 @@ install_login_manager () {
     pacman_update
     pacman_install lightdm
     pacman_install lightdm-gtk-greeter lightdm-gtk-greeter-settings
+
+    systemctl enable lightdm
 }
 
 install_qtile () {
