@@ -10,7 +10,7 @@ user_run () {
     su -c "$1" $USERNAME
 }
 pacman_update () {
-    pacman -Syu
+    pacman -Syu --noconfirm
 }
 
 pacman_install () {
