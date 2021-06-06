@@ -150,20 +150,22 @@ install_display_manager () {
 }
 
 install_window_manager () {
-    pacman -S qtile
-    user_run "mkdir -p ~/.config/qtile" 
-    user_run "cp /usr/share/doc/qtile/default_config.py ~/.config/qtile"
+    sudo pacman -S qtile
+    mkdir -p ~/.config/qtile
+    cp /usr/share/doc/qtile/default_config.py ~/.config/qtile
+
+    # TODO change mod to mod1
+    # Maybe copy my config from github!
 }
 
 install_desktop () {
-    ################
-    # Window manager
-    ################
-    
+    # 
     # As $USERNAME
+    # 
+
     sudo pacman -Syu
     #pacman -S xorg xorg-server xorg-apps xorg-xinit xterm
-    sudo pacman -S xorg xorg-xinit chromium
+    sudo pacman -S xorg xorg-xinit
 
     # Application browser.
     sudo pacman -S dmenu
@@ -173,6 +175,11 @@ install_desktop () {
 
     # Compositor to make things transparent.
     sudo pacman -S picom
+
+    # Terminal
+    sudo pacman -S alacritty
+
+    install_window_manager
 
     # To build packages from aur Arch
     # $ pacman -S base-devel
@@ -187,7 +194,6 @@ install_desktop () {
 
 
     #install_display_manager   
-    #install_window_manager
 
     # If not right keymap run
     # See: https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration#Persistent_configuration
