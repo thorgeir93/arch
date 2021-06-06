@@ -94,9 +94,9 @@ install_arch () {
     #
     # INSTALL GRUB
     #
-    pacman -S grub efibootmgr
+    pacman -Sy grub efibootmgr
     mkdir /boot/efi
-    mount /dev/sda1 /boot/efi
+    munt /dev/sda1 /boot/efi
     lsblk # to check if everything is mounted correctly
     grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi --removable
     grub-mkconfig -o /boot/grub/grub.cfg
@@ -107,6 +107,7 @@ install_arch () {
 install_finish () {
     umount -R /mnt
     poweroff
+    # Then boot up in existing OS
 }
 
 install_desktop () {
@@ -141,4 +142,4 @@ main () {
     install_desktop
 }
 
-main()
+main
