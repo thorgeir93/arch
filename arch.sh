@@ -11,6 +11,7 @@
 set -o xtrace
 
 USERNAME="test"
+SETUP_SCRIPT_URL="https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh"
 
 user_run () {
     su -c "$1" $USERNAME
@@ -130,14 +131,19 @@ install_arch () {
     grub-install --target=x86_64-efi --bootloader-id=grup_uefi --recheck
     grub-mkconfig -o /boot/grub/grub.cfg
 
+    # Enable network
     pacman -S networkmanager
     systemctl enable NetworkManager
+
+    # 
+    user_run "curl -L $SETUP_SCRIPT_URL > /home/$USERNAME/archsetup.sh"
+    user_run "localectl set-keymap --no-convert is-latin1"
 }
 
-install_finish () {
-    umount -R /mnt
-    poweroff
-    # Then boot up in existing OS
+install_display_manager () {
+    pacman -S lightdm
+    pacman -S lightdm-gtk-greeter lightdm-gtk-gretter-settings
+    systemctl enable lightdm
 }
 
 install_desktop () {
@@ -148,36 +154,37 @@ install_desktop () {
     # As root
     pacman -Syu
     pacman -S xorg-server xorg-apps xorg-xinit xterm
-    pacman -S lightdm
-    pacman -S lightdm-gtk-greeter lightdm-gtk-gretter-settings
-    
+
+    install_display_manager   
+
     # As user
     user_run "mkdir -p ~/.config/qtile" 
     user_run "cp /usr/share/doc/qtile/default_config.py ~/.config/qtile"
-    
-    # As root
-    pacman -Syu
-    pacman -S sudo
-    
-    # Manual stuff
-    # vi /etc/sudoers
-    # Remove comment from %wheel ALL=(ALL) ALL
+   
+    # If not right keymap run
+    # See: https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration#Persistent_configuration
+    # $ user_run "localectl set-keymap --no-convert is-latin1"
 }
     
 main () {
     # Inside Arch ISO installer.
     set_base_settings
-    init_mnt_filesystem
 
-    # Inside /mnt Arch.
-    install_arch
+    ## Run first cfdisk!
+    #init_mnt_filesystem
 
+    ## Inside /mnt Arch.
+    #install_arch
 
-    # Inside Arch ISO installer.
-    install_finish
+    ## Back to Arch ISO installer.
+    #umount -R /mnt
+    #poweroff
 
-    # After reboot.
-    install_desktop
+    # Unplug the Arch ISO installer.
+    # Then boot up in existing OS
+
+    ## After reboot.
+    #install_desktop
 }
 
 main
