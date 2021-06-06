@@ -160,12 +160,31 @@ install_desktop () {
     # Window manager
     ################
     
-    # As root
-    pacman -Syu
-    pacman -S xorg-server xorg-apps xorg-xinit xterm
+    # As $USERNAME
+    sudo pacman -Syu
+    #pacman -S xorg xorg-server xorg-apps xorg-xinit xterm
+    sudo pacman -S xorg xorg-xinit chromium
 
-    install_display_manager   
-    install_window_manager
+    # Wallpaper background process.
+    sudo pacman -S nitrogen
+
+    # Compositor to make things transparent.
+    sudo pacman -S picom
+
+    # To build packages from aur Arch
+    # $ pacman -S base-devel
+
+    cp /etc/X11/xinit/xinitrc ~/.xinitrc
+    echo "nitrogen --restore &" >> ~/.xinitrc
+    echo "picom &" >> ~/.xinitrc
+    echo "exec qtile" >> ~/.xinitrc
+
+    # Remove default execution at the bottom.
+    vim ~/.xinitrc
+
+
+    #install_display_manager   
+    #install_window_manager
 
     # If not right keymap run
     # See: https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration#Persistent_configuration
@@ -190,6 +209,7 @@ main () {
     # Then boot up in existing OS
 
     ## After reboot.
+    # As regular user.
     #install_desktop
 }
 
