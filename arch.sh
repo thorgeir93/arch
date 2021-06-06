@@ -47,27 +47,38 @@ init_mnt_filesystem () {
     # [SWAP]	      /dev/sda2	Linux swap		        More than 512 MiB
     # /	              /dev/sda3	Linux x86-64 root (/)	Remainder of the device
     # ```
-    #
-    # DEFINE FILESYSTEMS, MOUNTING AND BASE INSTALL.
-    #
     lsblk -p
     # then find relevant disk partition and run:
     # $ cfdisk /dev/sda
 
-    mkfs.ext4 /dev/sda3
-    mkswap /dev/sda2
+    ######################
+    # DEFINE FILESYSTEMS
+    ######################
+    # EFI partition
     mkfs.fat -F32 /dev/sda1
-    
-    mount /dev/sda3 /mnt
-    
-    mkdir /mnt/efi
-    mount /dev/sda1 /mnt/efi
 
+    # Swap partition
+    mkswap /dev/sda2
     swapon /dev/sda2
-    
+
+    # Linux Filesystem
+    mkfs.ext4 /dev/sda3
+   
+    #####################
+    # MOUNT AND INSTALL 
+    #####################
+    # Mount on live live image
+    mount /dev/sda3 /mnt
+
+    # Install base system for Arch.
     pacstrap /mnt base linux linux-firmware vim
+   
+    # Generate filesystem table.
     genfstab -U /mnt >> /mnt/etc/fstab
-    
+
+    #mkdir /mnt/efi
+    #mount /dev/sda1 /mnt/efi
+
     echo "Change to new ISO"
     echo "arch-chroot /mnt"
     exit 1
@@ -139,10 +150,18 @@ install_desktop () {
 }
     
 main () {
+    # Inside Arch ISO installer.
     set_base_settings
     init_mnt_filesystem
+
+    # Inside /mnt Arch.
     install_arch
+
+
+    # Inside Arch ISO installer.
     install_finish
+
+    # After reboot.
     install_desktop
 }
 
