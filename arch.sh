@@ -138,6 +138,9 @@ install_arch () {
     # 
     user_run "curl -L $SETUP_SCRIPT_URL > /home/$USERNAME/archsetup.sh"
     user_run "localectl set-keymap --no-convert is-latin1"
+
+    echo "umount -R /mnt"
+    echo "poweroff"
 }
 
 install_display_manager () {
@@ -177,8 +180,8 @@ main () {
     #install_arch
 
     ## Back to Arch ISO installer.
-    #umount -R /mnt
-    #poweroff
+    # $ "umount -R /mnt"
+    # $ "poweroff"
 
     # Unplug the Arch ISO installer.
     # Then boot up in existing OS
