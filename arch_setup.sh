@@ -141,4 +141,4 @@ main () {
     install_desktop
 }
 
-
+main()
