@@ -24,7 +24,7 @@ pacman_install () {
 
 install_x () {
     pacman_update
-    pacman_install xorg-server xorg-apps xorg-xinit xterm
+    pacman_install xorg-server xorg-apps xorg-xinit st
 }
 
 install_login_manager () {
@@ -51,12 +51,22 @@ install_utils () {
 config_qtile () {
     user_run "mkdir -p ~/.config/qtile" 
     user_run "cp /usr/share/doc/qtile/default_config.py ~/.config/qtile"
+
+    # Make the alt key be the super key.
+    user_run "sed -i 's/mod \= \"mod4\"/mod \= \"mod1\"/' ~/.config/qtile/config.py"
+}
+
+set_keyboard () {
+    # Set keyboard layout in Arch linux
+    ls /usr/share/kbd/keymaps/**/*.gz
+    loadkeys is-latin1-us
 }
 
 #
 # RECIPE
 #
 begin () {
+    
     install_x
     install_login_manager
 
