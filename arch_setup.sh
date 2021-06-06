@@ -74,7 +74,7 @@ install_arch () {
     hwclock --systohc
     
     # Edit
-    vim /etc/locale.gen
+    vim +177 /etc/locale.gen
     # uncomment: en_US.UTF-8 UTF-8
     #### uncomment: is_IS.UTF-8 UTF-8
     
@@ -94,7 +94,7 @@ install_arch () {
     #
     # INSTALL GRUB
     #
-    pacman -Sy grub efibootmgr
+    pacman -S grub efibootmgr
     mkdir /boot/efi
     munt /dev/sda1 /boot/efi
     lsblk # to check if everything is mounted correctly
