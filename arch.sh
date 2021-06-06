@@ -4,6 +4,9 @@
 # Author: Thorgeir Sigurdsson
 # Credit: https://wiki.archlinux.org/title/Installation_guide
 # Usage.: bash arch_setup.sh
+#
+# Tested in Virtualbox with EFI enabled in VM settings.
+#
 
 set -o xtrace
 
@@ -59,6 +62,7 @@ init_mnt_filesystem () {
     
     mkdir /mnt/efi
     mount /dev/sda1 /mnt/efi
+
     swapon /dev/sda2
     
     pacstrap /mnt base linux linux-firmware vim
