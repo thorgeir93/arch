@@ -165,6 +165,9 @@ install_desktop () {
     #pacman -S xorg xorg-server xorg-apps xorg-xinit xterm
     sudo pacman -S xorg xorg-xinit chromium
 
+    # Application browser.
+    sudo pacman -S dmenu
+
     # Wallpaper background process.
     sudo pacman -S nitrogen
 
