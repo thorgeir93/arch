@@ -88,35 +88,50 @@ install_arch () {
     ln -sf /usr/share/zoneinfo/Iceland /etc/localtime
     hwclock --systohc
     
-    # Edit
+    # Uncomment: en_US.UTF-8 UTF-8
     vim +177 /etc/locale.gen
-    # uncomment: en_US.UTF-8 UTF-8
-    #### uncomment: is_IS.UTF-8 UTF-8
+    locale-gen
     
-    echo "LANG=en_US.UTF-8" >> /etc/locale.gen
+    #echo "LANG=en_US.UTF-8" >> /etc/locale.gen
     
     # Use localectl list-keymaps | grep is
-    echo "KEYMAP=is-latin1" >> /etc/locale.gen
+    #echo "KEYMAP=is-latin1" >> /etc/locale.gen
+
     echo "MEGAS" >> /etc/hostname
     
-    echo "127.0.0.1      localhost" >> /etc/hosts
-    echo "::1            localhost" >> /etc/hosts
-    echo "127.0.1.1	     MEGAS.localdomain	MEGAS" >> /etc/hosts
+    echo "127.0.0.1    localhost" >> /etc/hosts
+    echo "::1          localhost" >> /etc/hosts
+    echo "127.0.1.1    MEGAS.localdomain    MEGAS" >> /etc/hosts
     
-    # Set the root password.
+    echo "Set root password ..."
     passwd 
+
+    echo "Set $USERNAME password ..."
+    useradd -m $USERNAME
+    passwd $USERNAME
+    usermod -aG wheel,audio,video,optical,storage $USERNAME
+
+    pacman -S sudo
+
+    # Uncomment "%wheel ALL=(ALL) ALL"
+    visudo
     
     #
     # INSTALL GRUB
     #
-    pacman -S grub efibootmgr
-    mkdir /boot/efi
-    munt /dev/sda1 /boot/efi
-    lsblk # to check if everything is mounted correctly
-    grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi --removable
+    pacman -S grub efibootmgr dosfstools os-prober mtools
+
+    mkdir /boot/EFI
+    mount /dev/sda1 /boot/EFI
+
+    lsblk -p # to check if everything is mounted correctly
+
+    #grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/EFI --removable
+    grub-install --target=x86_64-efi --bootloader-id=grup_uefi --recheck
     grub-mkconfig -o /boot/grub/grub.cfg
-    
-    exit 0
+
+    pacman -S networkmanager
+    systemctl enable NetworkManager
 }
 
 install_finish () {
