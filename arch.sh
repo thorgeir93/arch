@@ -145,8 +145,14 @@ install_arch () {
 
 install_display_manager () {
     pacman -S lightdm
-    pacman -S lightdm-gtk-greeter lightdm-gtk-gretter-settings
+    pacman -S lightdm-gtk-greeter lightdm-gtk-greeter-settings
     systemctl enable lightdm
+}
+
+install_window_manager () {
+    pacman -S qtile
+    user_run "mkdir -p ~/.config/qtile" 
+    user_run "cp /usr/share/doc/qtile/default_config.py ~/.config/qtile"
 }
 
 install_desktop () {
@@ -159,11 +165,8 @@ install_desktop () {
     pacman -S xorg-server xorg-apps xorg-xinit xterm
 
     install_display_manager   
+    install_window_manager
 
-    # As user
-    user_run "mkdir -p ~/.config/qtile" 
-    user_run "cp /usr/share/doc/qtile/default_config.py ~/.config/qtile"
-   
     # If not right keymap run
     # See: https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration#Persistent_configuration
     # $ user_run "localectl set-keymap --no-convert is-latin1"
