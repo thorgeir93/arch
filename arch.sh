@@ -10,7 +10,7 @@
 
 set -o xtrace
 
-USERNAME="test"
+USERNAME="thorgeir"
 SETUP_SCRIPT_URL="https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh"
 
 user_run () {
@@ -193,23 +193,36 @@ install_desktop () {
     vim ~/.xinitrc
 
 
+    localectl set-keymap --no-convert is-latin1
+
+    # Trying to set keyboard layout.
+    setxkbmap is # Works
+    loadkeys is-latin1 # Throws error:
+    #   couldn't get a file descriptor referring to the console
+
     #install_display_manager   
 
     # If not right keymap run
     # See: https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration#Persistent_configuration
     # $ user_run "localectl set-keymap --no-convert is-latin1"
 }
+
     
 main () {
+
+    # STEP 1
     # Inside Arch ISO installer.
     set_base_settings
 
-    ## Run first cfdisk!
+    # STEP 2
+    ## RUN FIRST CFDISK!
     #init_mnt_filesystem
 
+    # STEP 3
     ## Inside /mnt Arch.
     #install_arch
 
+    # STEP 4
     ## Back to Arch ISO installer.
     # $ "umount -R /mnt"
     # $ "poweroff"
@@ -217,9 +230,15 @@ main () {
     # Unplug the Arch ISO installer.
     # Then boot up in existing OS
 
+    # STEP 5
     ## After reboot.
     # As regular user.
     #install_desktop
+
+    # STEP 6
+    # Configs
+    # As regular user.
+    #my_environment
 }
 
 main
