@@ -13,8 +13,13 @@ GITPATH=~/git/hub
 USERNAME=thorgeir
 
 ssh_public_key () {
-    echo "Before continue, add your ssh keys (private/public) to ~/.ssh"
-    read -p "Press enter to continue"
+    #echo "Before continue, add your ssh keys (private/public) to ~/.ssh"
+    #read -p "Press enter to continue"
+
+    if [ ! -f ~/.ssh/*.pub ]; then
+        echo "Missing ssh keys (private/public)"
+        exit 0
+    fi
 }
 
 git_init () {
