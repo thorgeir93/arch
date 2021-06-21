@@ -12,26 +12,20 @@ set -o errexit # Exit immediately if a command exits with non-zero status.
 GITPATH=~/git/hub
 USERNAME=thorgeir
 
+ssh_public_key () {
+    echo "Before continue, add your ssh keys (private/public) to ~/.ssh"
+    read -p "Press enter to continue"
+}
+
 git_init () {
     pacman -S git
     mkdir -p $GITPATH/$USERNAME/
 }
 
-get_dotfiles() {
+git_get () {
+    git_repo_name=${1}; shift
     pushd $GITPATH/$USERNAME/
-    git clone https://github.com/thorgeir93/dotfiles.git
-    popd
-}
-
-get_wallpaper() {
-    pushd $GITPATH/$USERNAME/
-    git clone git@github.com:thorgeir93/wallpapers.git
-    popd
-}
-
-get_configs() {
-    pushd $GITPATH/$USERNAME/
-    git clone git@github.com:thorgeir93/configs.git
+    git clone git@github.com:thorgeir93/${git_repo_name}.git
     popd
 }
 
@@ -50,11 +44,15 @@ setup_dotfiles () {
 }
 
 main () {
+    ssh_public_key
     git_init
 
-    get_dotfiles
-    get_configs
+    git_get "wallpapers"
+    git_get "dotfiles"
+    git_get "configs"
 
     setup_dotfiles
     setup_qtile
 }
+
+main
