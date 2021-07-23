@@ -52,8 +52,8 @@ init_mnt_filesystem () {
     # Credit: https://wiki.archlinux.org/title/Partitioning#Example_layouts
     # ```
     # Mount point on  Partition	Partition type	        Suggested size
-    # /boot or /efi1  /dev/sda1	EFI system              At least 260 MiB
-    # [SWAP]	      /dev/sda2	Linux swap		        More than 512 MiB
+    # /boot or /efi1  /dev/sda1	EFI system              At least 550M
+    # [SWAP]	      /dev/sda2	Linux swap		        More than 512M
     # /	              /dev/sda3	Linux Filesystem	    Remainder of the device
     # ```
     lsblk -p
@@ -167,6 +167,13 @@ install_window_manager () {
     # Maybe copy my config from github!
 }
 
+install_aur () {
+    # To build packages from aur Arch
+    pacman -S base-devel
+
+    git clone https://aur.archlinux.org/yay-git.git
+}
+
 install_desktop () {
     # 
     # As $USERNAME
@@ -186,12 +193,16 @@ install_desktop () {
     sudo pacman -S picom
 
     # Terminal
-    sudo pacman -S alacritty
+    sudo pacman -S urxvt
+    # sudo pacman -S alacritty
+
+    # Utils
+    sudo pacman -S chromium git
+
+
+    #install_aur
 
     install_window_manager
-
-    # To build packages from aur Arch
-    # $ pacman -S base-devel
 
     cp /etc/X11/xinit/xinitrc ~/.xinitrc
     echo "nitrogen --restore &" >> ~/.xinitrc
@@ -199,14 +210,15 @@ install_desktop () {
     echo "exec qtile" >> ~/.xinitrc
 
     # Remove default execution at the bottom.
+    # (from last `fi`)
     vim ~/.xinitrc
     # For more details: https://wiki.archlinux.org/title/Xinit
 
     localectl set-keymap --no-convert is-latin1
 
     # Trying to set keyboard layout.
-    setxkbmap is # Works
-    loadkeys is-latin1 # Throws error:
+    #setxkbmap is # Works
+    #loadkeys is-latin1 # Throws error:
     #   couldn't get a file descriptor referring to the console
 
     #install_display_manager   
@@ -264,8 +276,8 @@ print_partition_documentation () {
   echo "[Select label type] -> gpt"
   echo ""
   echo "Mount point on  Partition Partition type          Suggested size"
-  echo "/boot or /efi1  /dev/sda1 EFI system              At least 260 MiB"
-  echo "[SWAP]          /dev/sda2 Linux swap              More than 512 MiB"
+  echo "/boot or /efi1  /dev/sda1 EFI system              At least 550M"
+  echo "[SWAP]          /dev/sda2 Linux swap              More than 2G"
   echo "/               /dev/sda3 Linux Filesystem        Remainder of the device"
   echo ""
   echo "[Write] and [Quit]"
@@ -307,7 +319,7 @@ print_documentation () {
     echo STEP 4
     echo Go rack to Arch ISO installer '$ exit'
     echo $ "umount -R /mnt"
-    echo $ "poweroff"
+    echo $ "shutdown now"
     echo ""
     echo Unplug the Arch ISO installer.
     echo Then boot up in existing OS
