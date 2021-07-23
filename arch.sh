@@ -87,7 +87,6 @@ init_mnt_filesystem () {
     echo "Change to new ISO"
     echo "arch-chroot /mnt"
     echo "May want to do $ cat /mnt/etc/fstab"
-    exit 1
 }
 
 install_arch () {
@@ -133,7 +132,7 @@ install_arch () {
     lsblk -p # to check if everything is mounted correctly
 
     #grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/EFI --removable
-    grub-install --target=x86_64-efi --bootloader-id=grup_uefi --recheck
+    grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
     grub-mkconfig -o /boot/grub/grub.cfg
 
     # Enable network
@@ -270,38 +269,43 @@ print_partition_documentation () {
 }
 
 print_documentation () {
+    echo "I Recommend to have the following documenation on the side while installing."
+    echo "------------------"
+    echo ""
     echo "Run either $ print_documentation or $ source arch.sh to display this again."
-
-    echo  STEP 1
-    echo  Inside Arch ISO installer.
-    echo  $ set_base_settings
-    echo  ""
-    echo  STEP 2
-    echo  RUN FIRST CFDISK!
-    echo  $ print_partition_documentation
-    echo  $ init_mnt_filesystem
-    echo  ""
-    echo  STEP 3
-    echo  Inside /mnt Arch.
-    echo  $ install_arch
-    echo  ""
-    echo  STEP 4
-    echo  Back to Arch ISO installer.
-    echo  $ "umount -R /mnt"
-    echo  $ "poweroff"
-    echo  ""
-    echo  Unplug the Arch ISO installer.
-    echo  Then boot up in existing OS
-    echo  ""
-    echo  STEP 5
-    echo  After reboot.
-    echo  As regular user.
-    echo  $ install_desktop
-    echo  ""
-    echo  STEP 6
-    echo  Configs
-    echo  As regular user.
-    echo  $ my_environment
+    echo ""
+    echo STEP 1
+    echo Inside Arch ISO installer.
+    echo $ set_base_settings
+    echo ""
+    echo STEP 2
+    echo RUN FIRST CFDISK!
+    echo $ print_partition_documentation
+    echo $ init_mnt_filesystem
+    echo Then run $ arch-chroot /mnt
+    echo ""
+    echo STEP 3
+    echo Inside /mnt Arch.
+    echo Download the current script again.
+    echo $ install_arch
+    echo ""
+    echo STEP 4
+    echo Back to Arch ISO installer.
+    echo $ "umount -R /mnt"
+    echo $ "poweroff"
+    echo ""
+    echo Unplug the Arch ISO installer.
+    echo Then boot up in existing OS
+    echo ""
+    echo STEP 5
+    echo After reboot.
+    echo As regular user.
+    echo $ install_desktop
+    echo ""
+    echo STEP 6
+    echo Configs
+    echo As regular user.
+    echo $ my_environment
 }
 
 print_documentation
