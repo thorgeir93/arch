@@ -149,6 +149,7 @@ install_arch () {
 
     echo "umount -R /mnt"
     echo "poweroff"
+    exit 1
 }
 
 install_display_manager () {
@@ -199,7 +200,7 @@ install_desktop () {
 
     # Remove default execution at the bottom.
     vim ~/.xinitrc
-
+    # For more details: https://wiki.archlinux.org/title/Xinit
 
     localectl set-keymap --no-convert is-latin1
 
@@ -260,7 +261,7 @@ print_partition_documentation () {
   echo ""
   echo "$ cfdisk /dev/sda"
   echo ""
-  echo "[Select lable type] -> gpt"
+  echo "[Select label type] -> gpt"
   echo ""
   echo "Mount point on  Partition Partition type          Suggested size"
   echo "/boot or /efi1  /dev/sda1 EFI system              At least 260 MiB"
@@ -269,12 +270,18 @@ print_partition_documentation () {
   echo ""
   echo "[Write] and [Quit]"
   echo ""
-  echo "MAKE SURE YOU ARE USING [/dev/sda] DEVICE! (otherwise change the code)"
+  echo "MAKE SURE YOU ARE USING [/dev/sda] DEVICE in the code! (otherwise change the code)"
 }
 
 print_documentation () {
     echo "I Recommend to have the following documenation on the side while installing."
     echo "------------------"
+    echo "First steps"
+    echo "------------------"
+    echo   $ loadkeys is-latin1
+    echo '  (for regular user) $ localectl set-keymap --no-convert is-latin1'
+    echo   $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh > arch.sh
+    echo   $ source arch.sh
     echo ""
     echo "Run either $ print_documentation or $ source arch.sh to display this again."
     echo ""
@@ -292,9 +299,13 @@ print_documentation () {
     echo Inside /mnt Arch.
     echo Download the current script again.
     echo $ install_arch
+    echo    1. Uncomment en_US.UTF-8 UTF-8
+    echo    2. Set root password
+    echo    3. Set user password.
+    echo    4. Uncomment '%wheel ALL=(ALL) ALL'
     echo ""
     echo STEP 4
-    echo Back to Arch ISO installer.
+    echo Go rack to Arch ISO installer '$ exit'
     echo $ "umount -R /mnt"
     echo $ "poweroff"
     echo ""
