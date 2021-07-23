@@ -48,9 +48,9 @@ init_mnt_filesystem () {
     # Credit: https://wiki.archlinux.org/title/Partitioning#Example_layouts
     # ```
     # Mount point on  Partition	Partition type	        Suggested size
-    # /boot or /efi1  /dev/sda1	EFI system partition	At least 260 MiB
+    # /boot or /efi1  /dev/sda1	EFI system              At least 260 MiB
     # [SWAP]	      /dev/sda2	Linux swap		        More than 512 MiB
-    # /	              /dev/sda3	Linux x86-64 root (/)	Remainder of the device
+    # /	              /dev/sda3	Linux Filesystem	    Remainder of the device
     # ```
     lsblk -p
     # then find relevant disk partition and run:
@@ -59,14 +59,14 @@ init_mnt_filesystem () {
     ######################
     # DEFINE FILESYSTEMS
     ######################
-    # EFI partition
+    # EFI System partition
     mkfs.fat -F32 /dev/sda1
 
     # Swap partition
     mkswap /dev/sda2
     swapon /dev/sda2
 
-    # Linux Filesystem
+    # Linux Filesystem partition
     mkfs.ext4 /dev/sda3
    
     #####################
@@ -86,6 +86,7 @@ init_mnt_filesystem () {
 
     echo "Change to new ISO"
     echo "arch-chroot /mnt"
+    echo "May want to do $ cat /mnt/etc/fstab"
     exit 1
 }
 
