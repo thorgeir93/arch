@@ -3,10 +3,14 @@
 # ISO V.: 2021.06.01
 # Author: Thorgeir Sigurdsson
 # Credit: https://wiki.archlinux.org/title/Installation_guide
-# Usage.: bash arch_setup.sh
+# Usage.: source arch.sh
 #
 # Tested in Virtualbox with EFI enabled in VM settings.
 #
+# First steps:
+#   $ loadkeys is-latin1
+#   $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh > arch.sh
+#   $ source arch.sh
 
 set -o xtrace
 
@@ -241,4 +245,38 @@ main () {
     #my_environment
 }
 
-main
+print_documentation () {
+    echo "Run either $ print_documentation or $ source arch.sh to display this again."
+
+    echo  STEP 1
+    echo  Inside Arch ISO installer.
+    echo  set_base_settings
+
+    echo  STEP 2
+    echo  RUN FIRST CFDISK!
+    echo  $ init_mnt_filesystem
+
+    echo  STEP 3
+    echo  Inside /mnt Arch.
+    echo  $ install_arch
+
+    echo  STEP 4
+    echo  Back to Arch ISO installer.
+    echo  $ "umount -R /mnt"
+    echo  $ "poweroff"
+
+    echo  Unplug the Arch ISO installer.
+    echo  Then boot up in existing OS
+
+    echo  STEP 5
+    echo  After reboot.
+    echo  As regular user.
+    echo  $ install_desktop
+
+    echo  STEP 6
+    echo  Configs
+    echo  As regular user.
+    echo  $ my_environment
+}
+
+print_documentation
