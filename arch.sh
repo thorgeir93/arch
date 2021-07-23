@@ -12,7 +12,7 @@
 #   $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh > arch.sh
 #   $ source arch.sh
 
-set -o xtrace
+# set -o xtrace
 
 USERNAME="thorgeir"
 SETUP_SCRIPT_URL="https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh"
@@ -251,28 +251,28 @@ print_documentation () {
     echo  STEP 1
     echo  Inside Arch ISO installer.
     echo  set_base_settings
-
+    echo  ""
     echo  STEP 2
     echo  RUN FIRST CFDISK!
     echo  $ init_mnt_filesystem
-
+    echo  ""
     echo  STEP 3
     echo  Inside /mnt Arch.
     echo  $ install_arch
-
+    echo  ""
     echo  STEP 4
     echo  Back to Arch ISO installer.
     echo  $ "umount -R /mnt"
     echo  $ "poweroff"
-
+    echo  ""
     echo  Unplug the Arch ISO installer.
     echo  Then boot up in existing OS
-
+    echo  ""
     echo  STEP 5
     echo  After reboot.
     echo  As regular user.
     echo  $ install_desktop
-
+    echo  ""
     echo  STEP 6
     echo  Configs
     echo  As regular user.
