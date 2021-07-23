@@ -245,15 +245,35 @@ main () {
     #my_environment
 }
 
+print_partition_documentation () {
+  echo "Help guides:"
+  echo "   * EFI partition - https://wiki.archlinux.org/index.php/EFI_system_partition"
+  echo ""
+  echo "Credit: https://wiki.archlinux.org/title/Partitioning#Example_layouts"
+  echo ""
+  echo "$ cfdisk"
+  echo "[Select lable type] -> gpt"
+  echo ""
+  echo "Mount point on  Partition Partition type          Suggested size"
+  echo "/boot or /efi1  /dev/sda1 EFI system              At least 260 MiB"
+  echo "[SWAP]          /dev/sda2 Linux swap              More than 512 MiB"
+  echo "/               /dev/sda3 Linux Filesystem        Remainder of the device"
+  echo ""
+  echo "[Write] and [Quit]"
+  echo ""
+  echo "MAKE SURE YOU ARE USING [/dev/sda] DEVICE! (otherwise change the code)"
+}
+
 print_documentation () {
     echo "Run either $ print_documentation or $ source arch.sh to display this again."
 
     echo  STEP 1
     echo  Inside Arch ISO installer.
-    echo  set_base_settings
+    echo  $ set_base_settings
     echo  ""
     echo  STEP 2
     echo  RUN FIRST CFDISK!
+    echo  $ print_partition_documentation
     echo  $ init_mnt_filesystem
     echo  ""
     echo  STEP 3
