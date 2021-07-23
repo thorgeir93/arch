@@ -3,6 +3,7 @@
 # ISO V.: 2021.06.01
 # Author: Thorgeir Sigurdsson
 # Credit: https://wiki.archlinux.org/title/Installation_guide
+#         https://www.youtube.com/watch?v=PQgyW10xD8s
 # Usage.: source arch.sh
 #
 # Tested in Virtualbox with EFI enabled in VM settings.
@@ -11,6 +12,9 @@
 #   $ loadkeys is-latin1
 #   $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh > arch.sh
 #   $ source arch.sh
+#
+# In case of VirtualBox Enable EFI in (Settings>System>Enable EFI).
+#
 
 # set -o xtrace
 
@@ -140,7 +144,7 @@ install_arch () {
     systemctl enable NetworkManager
 
     # 
-    user_run "curl -L $SETUP_SCRIPT_URL > /home/$USERNAME/archsetup.sh"
+    user_run "curl -L $SETUP_SCRIPT_URL > /home/$USERNAME/arch.sh"
     user_run "localectl set-keymap --no-convert is-latin1"
 
     echo "umount -R /mnt"
