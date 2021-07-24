@@ -159,17 +159,25 @@ install_display_manager () {
     systemctl enable lightdm
 }
 
+install_pip () {
+    # Credit: https://pip.pypa.io/en/stable/installing/
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    python get-pip.py
+}
+
+
 install_window_manager () {
-    sudo pacman -S qtile
+    #sudo pacman -S qtile
     mkdir -p ~/.config/qtile
     cp /usr/share/doc/qtile/default_config.py ~/.config/qtile/
 
-    # or 
-    #mkdir -p /home/$USRENAME/git/hub/
-    #pushd /home/$USERNAME/git/hub
-    #git clone git://github.com/qtile/qtile.git
-    #cd qtile
-    #python -m pip install .
+    mkdir -p /home/$USRENAME/git/hub/
+    pushd /home/$USERNAME/git/hub
+    git clone git://github.com/qtile/qtile.git
+    cd qtile
+
+    install_pip
+    python -m pip install .
 
     # TODO change mod to mod1
     # Maybe copy my config from github!
@@ -180,12 +188,6 @@ install_aur () {
     pacman -S base-devel
 
     git clone https://aur.archlinux.org/yay-git.git
-}
-
-install_pip () {
-    # Credit: https://pip.pypa.io/en/stable/installing/
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    python get-pip.py
 }
 
 install_desktop () {
@@ -347,7 +349,7 @@ print_documentation () {
     echo "------------------"
     echo   $ loadkeys is-latin1
     echo '  (for regular user) $ localectl set-keymap --no-convert is-latin1'
-    echo   $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh > arch.sh
+    echo   $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh
     echo   $ source arch.sh
     echo ""
     echo "Run either $ print_documentation or $ source arch.sh to display this again."
@@ -357,8 +359,8 @@ print_documentation () {
     echo $ set_base_settings
     echo ""
     echo STEP 2
-    echo RUN FIRST CFDISK!
     echo $ print_partition_documentation
+    echo Make sure you run first cfdisk!
     echo $ init_mnt_filesystem
     echo Then run $ arch-chroot /mnt
     echo ""
@@ -372,7 +374,7 @@ print_documentation () {
     echo    4. Uncomment '%wheel ALL=(ALL) ALL'
     echo ""
     echo STEP 4
-    echo Go rack to Arch ISO installer '$ exit'
+    echo Go back to Arch ISO installer '$ exit'
     echo $ "umount -R /mnt"
     echo $ "shutdown now"
     echo ""
