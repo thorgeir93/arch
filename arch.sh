@@ -230,7 +230,10 @@ install_desktop () {
     vim ~/.xinitrc
     # For more details: https://wiki.archlinux.org/title/Xinit
 
+    # Allow Unicode characters in terminal.
     localectl set-keymap --no-convert is-latin1
+    localectl set-locale LANG=en_US.UTF-8
+    localectl set-x11-keymap is
 
     # Nice documentation about keymap (fedora):
     #   * https://docs.fedoraproject.org/en-US/Fedora/21/html/System_Administrators_Guide/s2-Setting_the_Keymap.html
