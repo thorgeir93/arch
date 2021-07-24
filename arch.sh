@@ -13,9 +13,10 @@
 #   $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh > arch.sh
 #   $ source arch.sh
 #
-# In case of VirtualBox Enable EFI in (Settings>System>Enable EFI).
+# Virtualbox development:
+#   * Enable EFI in (Settings>System>Enable EFI).
+#   * xrandr -s 1920x1080 # to resize the screen.
 #
-
 # set -o xtrace
 
 USERNAME="thorgeir"
@@ -161,7 +162,14 @@ install_display_manager () {
 install_window_manager () {
     sudo pacman -S qtile
     mkdir -p ~/.config/qtile
-    cp /usr/share/doc/qtile/default_config.py ~/.config/qtile
+    cp /usr/share/doc/qtile/default_config.py ~/.config/qtile/
+
+    # or 
+    #mkdir -p /home/$USRENAME/git/hub/
+    #pushd /home/$USERNAME/git/hub
+    #git clone git://github.com/qtile/qtile.git
+    #cd qtile
+    #python -m pip install .
 
     # TODO change mod to mod1
     # Maybe copy my config from github!
@@ -172,6 +180,12 @@ install_aur () {
     pacman -S base-devel
 
     git clone https://aur.archlinux.org/yay-git.git
+}
+
+install_pip () {
+    # Credit: https://pip.pypa.io/en/stable/installing/
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    python get-pip.py
 }
 
 install_desktop () {
@@ -193,7 +207,7 @@ install_desktop () {
     sudo pacman -S picom
 
     # Terminal
-    sudo pacman -S urxvt
+    sudo pacman -S rxvt-unicode
     # sudo pacman -S alacritty
 
     # Utils
@@ -207,7 +221,7 @@ install_desktop () {
     cp /etc/X11/xinit/xinitrc ~/.xinitrc
     echo "nitrogen --restore &" >> ~/.xinitrc
     echo "picom &" >> ~/.xinitrc
-    echo "exec qtile" >> ~/.xinitrc
+    echo "exec qtile start" >> ~/.xinitrc
 
     # Remove default execution at the bottom.
     # (from last `fi`)
@@ -215,6 +229,9 @@ install_desktop () {
     # For more details: https://wiki.archlinux.org/title/Xinit
 
     localectl set-keymap --no-convert is-latin1
+
+    # Nice documentation about keymap (fedora):
+    #   * https://docs.fedoraproject.org/en-US/Fedora/21/html/System_Administrators_Guide/s2-Setting_the_Keymap.html
 
     # Trying to set keyboard layout.
     #setxkbmap is # Works
@@ -226,6 +243,44 @@ install_desktop () {
     # If not right keymap run
     # See: https://wiki.archlinux.org/title/Linux_console/Keyboard_configuration#Persistent_configuration
     # $ user_run "localectl set-keymap --no-convert is-latin1"
+
+    # Example to start X11 in login.
+    # echo '[[ $(fgconsole 2>/dev/null) == 1 ]] && exec startx -- vt1' >> ~/.bash_profile
+
+    # error:
+    #   xf86EnableIOPorts: failed to set IOPL for I/O (Operation not permitted)
+    #   The XKEYBOARD keymap compler (xkbcomp) reports:
+    #   > warning: Could not resolve keysym XF86BrightnessAuto
+    #   > warning: Could not resolve keysym XF86DisplayOff
+    #   > warning: could not resolve XF86Info
+    #   > warning: Could not resolve keysym XF86AspectRatio
+    #   > warning: Could not resolve keysym XF86AspectRatioh
+    # Fixed by changing in .xinitrc (installation methos may differ)
+    #   $ exec qtile
+    # TO
+    #   $ exec qtile start
+
+    # urxvt - Language settgings:
+    # $ localectl status
+    #   System Locale: LANG=en_US.UTF-8
+    #       VC Keymap: us
+    #      X11 Layout: is
+    # $ locale
+    #   LANG=en_US.UTF-8
+    #   LC_CTYPE="en_US.UTF-8"
+    #   LC_NUMERIC="en_US.UTF-8"
+    #   LC_TIME="en_US.UTF-8"
+    #   LC_COLLATE="en_US.UTF-8"
+    #   LC_MONETARY="en_US.UTF-8"
+    #   LC_MESSAGES="en_US.UTF-8"
+    #   LC_PAPER="en_US.UTF-8"
+    #   LC_NAME="en_US.UTF-8"
+    #   LC_ADDRESS="en_US.UTF-8"
+    #   LC_TELEPHONE="en_US.UTF-8"
+    #   LC_MEASUREMENT="en_US.UTF-8"
+    #   LC_IDENTIFICATION="en_US.UTF-8"
+    #   LC_ALL=
+
 }
 
     
@@ -328,6 +383,8 @@ print_documentation () {
     echo After reboot.
     echo As regular user.
     echo $ install_desktop
+    echo $ reboot
+    echo $ xrandr b
     echo ""
     echo STEP 6
     echo Configs
