@@ -352,7 +352,7 @@ print_documentation () {
     echo "------------------"
     echo   $ loadkeys is-latin1
     echo '  (for regular user) $ localectl set-keymap --no-convert is-latin1'
-    echo   $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh
+    echo " $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh > arch.sh"
     echo   $ source arch.sh
     echo ""
     echo "Run either $ print_documentation or $ source arch.sh to display this again."
@@ -389,7 +389,7 @@ print_documentation () {
     echo As regular user.
     echo $ install_desktop
     echo $ reboot
-    echo $ xrandr b
+    echo $ xrandr -s 1
     echo ""
     echo STEP 6
     echo Configs
