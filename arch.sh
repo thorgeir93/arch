@@ -331,6 +331,12 @@ print_partition_documentation () {
   echo " $ lsblk -p"
   echo "then find relevant disk partition and run:"
   echo ""
+  echo "In case of disk which already have partition table configure e.g. with DOS table:"
+  echo "$ fdisk /dev/sda"
+  echo "[delete all partition using 'd']"
+  echo "[Create a new empty GPT partition table -> hit 'g']"
+  echo ""
+  echo ""
   echo "$ cfdisk /dev/sda"
   echo ""
   echo "[Select label type] -> gpt"
@@ -350,6 +356,7 @@ print_documentation () {
     echo "------------------"
     echo "First steps"
     echo "------------------"
+    echo   MAKE SURE YOU HAVE INTERNET CONNECTION
     echo   $ loadkeys is-latin1
     echo '  (for regular user) $ localectl set-keymap --no-convert is-latin1'
     echo " $ curl https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh > arch.sh"
@@ -385,9 +392,9 @@ print_documentation () {
     echo Then boot up in existing OS
     echo ""
     echo STEP 5
-    echo After reboot.
-    echo As regular user.
+    echo "After reboot (as regular user)."
     echo $ install_desktop
+    echo "   1. In .xinit -> Remove default exec"
     echo $ reboot
     echo $ xrandr -s 1
     echo ""
