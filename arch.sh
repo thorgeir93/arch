@@ -160,24 +160,34 @@ install_display_manager () {
 }
 
 install_pip () {
+    mkdir -p /home/$USERNAME/tmp
+    pushd /home/$USERNAME/tmp
+
     # Credit: https://pip.pypa.io/en/stable/installing/
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
     python get-pip.py
+
+    popd
 }
 
 
 install_window_manager () {
     #sudo pacman -S qtile
-    mkdir -p ~/.config/qtile
-    cp /usr/share/doc/qtile/default_config.py ~/.config/qtile/
-
     mkdir -p /home/$USRENAME/git/hub/
     pushd /home/$USERNAME/git/hub
     git clone git://github.com/qtile/qtile.git
-    cd qtile
 
     install_pip
+
+    # If you encounter error installing qtile, this could do the trigg:
+    # $ python -m pip install --do-deps --ignore-installed cairocffi
+
     python -m pip install .
+
+    mkdir -p ~/.config/qtile
+    cp /usr/share/doc/qtile/default_config.py ~/.config/qtile/
+
+    popd
 
     # TODO change mod to mod1
     # Maybe copy my config from github!
@@ -215,6 +225,8 @@ install_desktop () {
     # Utils
     sudo pacman -S chromium git
 
+    # Install latest python
+    sudo pacman -S python
 
     #install_aur
 
