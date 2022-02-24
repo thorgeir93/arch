@@ -19,13 +19,13 @@
 #
 # set -o xtrace
 
+
 USERNAME="thorgeir"
 SETUP_SCRIPT_URL="https://raw.githubusercontent.com/thorgeir93/arch/main/arch.sh"
 
 user_run () {
     su -c "$1" $USERNAME
 }
-
 
 set_base_settings () {
     ###################
@@ -172,25 +172,26 @@ install_pip () {
 
 
 install_window_manager () {
-    #sudo pacman -S qtile
-    mkdir -p /home/$USRENAME/git/hub/
-    pushd /home/$USERNAME/git/hub
-    git clone git://github.com/qtile/qtile.git
+    sudo pacman -S qtile
 
-    install_pip
+    #mkdir -p /home/$USRENAME/git/hub/
+    #pushd /home/$USERNAME/git/hub
+    #git clone git://github.com/qtile/qtile.git
 
-    # If you encounter error installing qtile, this could do the trigg:
-    # $ python -m pip install --do-deps --ignore-installed cairocffi
+    #install_pip
 
-    python -m pip install .
+    ## If you encounter error installing qtile, this could do the trigg:
+    ## $ python -m pip install --do-deps --ignore-installed cairocffi
 
-    mkdir -p ~/.config/qtile
-    cp /usr/share/doc/qtile/default_config.py ~/.config/qtile/
+    #python -m pip install .
 
-    popd
+    #mkdir -p ~/.config/qtile
+    #cp /usr/share/doc/qtile/default_config.py ~/.config/qtile/
 
-    # TODO change mod to mod1
-    # Maybe copy my config from github!
+    #popd
+
+    ## TODO change mod to mod1
+    ## Maybe copy my config from github!
 }
 
 install_aur () {
@@ -276,6 +277,12 @@ install_desktop () {
     #   $ exec qtile
     # TO
     #   $ exec qtile start
+    # ALSO!!
+    #   If this above fix does not work
+    #   Please run updates
+    #   $ pacman -Syu
+    #   And uncheck 3D in display settings for the VM.
+
 
     # urxvt - Language settgings:
     # $ localectl status

@@ -23,7 +23,7 @@ ssh_public_key () {
 }
 
 git_init () {
-    pacman -S git
+    sudo pacman -S git
     mkdir -p $GITPATH/$USERNAME/
 }
 
@@ -42,19 +42,23 @@ setup_qtile () {
 }
 
 setup_dotfiles () {
-    ln --symbolic ~/$GITPAH/$USERNAME/dotfiles/.bashrc        ~/.bashrc
-    ln --symbolic ~/$GITPAH/$USERNAME/dotfiles/.vimrc         ~/.vimrc
-    ln --symbolic ~/$GITPAH/$USERNAME/dotfiles/.Xdefaults     ~/.Xdefaults
-    ln --symbolic ~/$GITPAH/$USERNAME/dotfiles/.aliases       ~/.aliases
+    ln --symbolic $GITPATH/$USERNAME/dotfiles/.bashrc        ~/.bashrc
+    ln --symbolic $GITPATH/$USERNAME/dotfiles/.vimrc         ~/.vimrc
+    ln --symbolic $GITPATH/$USERNAME/dotfiles/.Xdefaults     ~/.Xdefaults
+    ln --symbolic $GITPATH/$USERNAME/dotfiles/.aliases       ~/.aliases
 }
 
 main () {
+    sudo pacman -S openssh
+
     ssh_public_key
     git_init
 
     git_get "wallpapers"
     git_get "dotfiles"
     git_get "configs"
+
+    # TODO install vim pathogen
 
     setup_dotfiles
     setup_qtile
