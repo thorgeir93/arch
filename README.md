@@ -11,10 +11,16 @@ https://archlinux.org/
 Is there any critical update, or should we wait for a critical update after certain time.
 
 ### Update regularly and before install a package
-Always use:
+Before updating all the packages, you might need to update the keyrings before:
 ```
-pacman -Syu
+sudo pacman -S archlinux-keyring
 ```
+
+Then update all packages:
+```
+sudo pacman -Syu
+```
+
 
 ### System health
 ```
