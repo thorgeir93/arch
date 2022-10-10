@@ -64,6 +64,12 @@ setup_dotfiles () {
     symbolic_link $GITPATH/$USERNAME/dotfiles/.aliases       ~/.aliases
 }
 
+setup_timesync () {
+    sudo pacman -Syu ntp
+    sudo systemctl enable ntpd.service
+    sudo systemctl start ntpd.service
+}
+
 main () {
     sudo pacman -S openssh
 
@@ -78,6 +84,7 @@ main () {
 
     setup_dotfiles
     setup_qtile
+    setup_timesync
 }
 
 main
