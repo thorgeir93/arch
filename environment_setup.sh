@@ -65,18 +65,18 @@ setup_dotfiles () {
 }
 
 main () {
-    #sudo pacman -S openssh
+    sudo pacman -S openssh
 
-    #ssh_public_key
-    #git_init
+    ssh_public_key
+    git_init
 
-    #git_get "wallpapers"
-    #git_get "dotfiles"
-    #git_get "configs"
+    git_get "wallpapers"
+    git_get "dotfiles"
+    git_get "configs"
 
     # TODO install vim pathogen
 
-    #setup_dotfiles
+    setup_dotfiles
     setup_qtile
 }
 
