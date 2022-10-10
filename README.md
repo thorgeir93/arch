@@ -3,6 +3,10 @@
 ## Arch Setup
 See `arch.sh`
 
+Process order:
+1. arch.sh
+2. environment_setup.sh
+
 ## Arch System Maintenance
 Complete Guide: https://wiki.archlinux.org/title/System_maintenance
 
