@@ -68,6 +68,9 @@ setup_timesync () {
     sudo pacman -Syu ntp
     sudo systemctl enable ntpd.service
     sudo systemctl start ntpd.service
+    echo "Might need to run this command to update the sync fully:"
+    echo "$ timedatectl set-ntp true"
+    echo "Try to run just "timedatectl" to see if RTC time is correct."
 }
 
 main () {
