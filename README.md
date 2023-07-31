@@ -30,3 +30,5 @@ sudo pacman -Syu
 ```
 systemctl --failed && journalctl -p 3 -b
 ```
+
+# `archinstall`

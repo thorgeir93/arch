@@ -16,6 +16,9 @@ set -o errexit # Exit immediately if a command exits with non-zero status.
 
 GITPATH=~/git/hub
 USERNAME=thorgeir
+USERNAME_GIT=thorgeir93
+EMAIL=thorgeirsigurd@gmail.com
+AUTHOR="Þorgeir Eyjörð Sigurðsson"
 
 ssh_public_key () {
     #echo "Before continue, add your ssh keys (private/public) to ~/.ssh"
@@ -27,15 +30,22 @@ ssh_public_key () {
     fi
 }
 
+setup_filesystem () {
+    mkdir ~/tmp
+}
+
 git_init () {
     sudo pacman -S git
     mkdir -p $GITPATH/$USERNAME/
+
+    git config --global user.email "$EMAIL"
+    git config --global user.name "$AUTHOR"
 }
 
 git_get () {
     git_repo_name=${1}; shift
     pushd $GITPATH/$USERNAME/
-    git clone git@github.com:thorgeir93/${git_repo_name}.git
+    git clone git@github.com:${USERNAME_GIT}/${git_repo_name}.git
     popd
 }
 
@@ -62,6 +72,12 @@ setup_dotfiles () {
     symbolic_link $GITPATH/$USERNAME/dotfiles/.vimrc         ~/.vimrc
     symbolic_link $GITPATH/$USERNAME/dotfiles/.Xdefaults     ~/.Xdefaults
     symbolic_link $GITPATH/$USERNAME/dotfiles/.aliases       ~/.aliases
+    symbolic_link $GITPATH/$USERNAME/dotfiles/.speedswapper  ~/.speedswapper
+
+    # This will enable for example git branch in the command line PS1, like so:
+    # (master) $
+    raw_git_repo = https://raw.githubusercontent.com/git/git/master/contrib/completion
+    curl ${raw_git_repo}/git-prompt.sh -o ~/.git-prompt.sh
 }
 
 setup_timesync () {
@@ -73,8 +89,11 @@ setup_timesync () {
     echo "Try to run just "timedatectl" to see if RTC time is correct."
 }
 
+
 main () {
     sudo pacman -S openssh
+
+    setup_filesystem
 
     ssh_public_key
     git_init
@@ -90,4 +109,4 @@ main () {
     setup_timesync
 }
 
-main
+# main
